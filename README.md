@@ -1,8 +1,8 @@
-# Vite React Boilerplate
+# react-crud-table
 
-![](/public/vite-react-boilerplate.png)
+The best CRUD table with vite + React ! 
 
-Everything you need to kick off your next Vite + React web app!
+Thanks 
 
 ## Table of Contents
 
@@ -42,7 +42,6 @@ Built with type safety, scalability, and developer experience in mind. A batteri
 - [Dayjs](https://day.js.org/en/) - A minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers
 - [Husky](https://github.com/typicode/husky#readme) + [Commitizen](https://github.com/commitizen/cz-cli#readme) + [Commitlint](https://github.com/conventional-changelog/commitlint#readme) - Git hooks and commit linting to ensure use of descriptive and practical commit messages
 - [ts-reset](https://github.com/total-typescript/ts-reset#readme) - Improvements for TypeScripts built-in typings for use in applications
-- [Docker](https://www.docker.com) - Containerization tool for deploying your vite-react-boilerplate app
 
 A more detailed list of the included packages can be found in the [Installed Packages](#installed-packages) section. Packages not shown above include Devtools, ui helper libraries, and eslint plugins/configs.
 
@@ -58,13 +57,13 @@ If you'd like to use the included Dockerfile then [Docker](https://www.docker.co
 Getting started is a simple as cloning the repository
 
 ```
-git clone git@github.com:RicardoValdovinos/vite-react-boilerplate.git
+git clone git@github.com:1devJr/react-crud-table.git
 ```
 
 Changing into the new directory
 
 ```
-cd vite-react-boilerplate
+cd react-crud-table
 ```
 
 Removing the .git folder (and any additional files, folders or dependencies you may not need)
