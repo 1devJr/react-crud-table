@@ -57,7 +57,6 @@ export function TablePatient():JSX.Element{
     }
 
     const removePatient = (patientId:string):void => {
-
         navigate({ to: '/table/$patientId/delete', params: { patientId } })
     }
 
@@ -99,12 +98,7 @@ export function TablePatient():JSX.Element{
                         </TableRow>
                     ))}
                 </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TableCell >Total</TableCell>
-                        <TableCell className="text-right">$2,500.00</TableCell>
-                    </TableRow>
-                </TableFooter>
+              
             </Table>
         </>
     )
