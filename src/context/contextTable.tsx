@@ -1,18 +1,19 @@
-import React, { createContext, useContext, useState } from "react";
-import { headers, invoices, InvoicesHeaders, InvoicesProps } from "./data/table.data";
+import { createContext, useContext, useState, useEffect } from "react";
+import { InvoicesHeaders, InvoicesProps, headers, invoices } from "./data/table.data";
+import { wait } from "@/lib/utils";
 
 interface TableContextType {
   tableHeader: InvoicesHeaders;
-  data:InvoicesProps[]; // Replace with your actual data type
-  addInvoice: (invoice:InvoicesProps) => void;
-  setTableHeader: (headers:InvoicesHeaders) => void;
-  updateInvoice: (updatedInvoice:InvoicesProps) => void;
-  deleteInvoice: (id: string) => void;
+  data: InvoicesProps[];
+  setTableHeader: (headers: InvoicesHeaders) => void;
+  addInvoiceTable: (invoice: InvoicesProps) => Promise<void>;
+  updateInvoiceTable: (updatedInvoice: InvoicesProps) => Promise<void>;
+  deleteInvoiceTable:  (id: string) => Promise<void>;
 }
 
 const TableContext = createContext<TableContextType | undefined>(undefined);
 
-export const useTableContext = () => {
+export const useTableContext = (): TableContextType => {
   const context = useContext(TableContext);
   if (!context) {
     throw new Error("useTableContext must be used within a TableProvider");
@@ -22,26 +23,35 @@ export const useTableContext = () => {
 
 export const TableProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [data, setData] = useState<InvoicesProps[]>(invoices);
-  const [tableHeader,setTableHeader] = useState<InvoicesHeaders>(headers)
-  const addInvoice = (invoice: InvoicesProps) => {
+  const [tableHeader, setTableHeader] = useState<InvoicesHeaders>(headers);
+
+  const addInvoice =async (invoice: InvoicesProps): Promise<void> => {
+     await wait(1000)
     setData((prevData) => [...prevData, invoice]);
+    return Promise.resolve();
   };
 
-  const updateInvoice = (updatedInvoice: InvoicesProps) => {
+  const updateInvoice = async (updatedInvoice: InvoicesProps): Promise<void> => {
+     await wait(1000)
     setData((prevData) =>
       prevData.map((invoice) => (invoice.id === updatedInvoice.id ? updatedInvoice : invoice))
     );
+    return Promise.resolve();
   };
 
-  const deleteInvoice = (id: string) => {
+  const deleteInvoice = async (id: string): Promise<void> => {
+     await wait(1000)
     setData((prevData) => prevData.filter((invoice) => invoice.id !== id));
+    return Promise.resolve();
   };
+
+  useEffect(() => {
+    console.log("Updated invoices data:", data);
+  }, [data]);
 
   return (
-    <TableContext.Provider value={{ data, addInvoice, updateInvoice, deleteInvoice,tableHeader,setTableHeader }}>
+    <TableContext.Provider value={{ data, addInvoiceTable: addInvoice, updateInvoiceTable: updateInvoice, deleteInvoiceTable: deleteInvoice, tableHeader, setTableHeader }}>
       {children}
     </TableContext.Provider>
   );
 };
-
-// Define your Invoice type here or import it if it's defined elsewhere

@@ -1,4 +1,4 @@
-import { FunctionComponent } from "../../common/types";
+import type { FunctionComponent } from "../../common/types";
 import * as uuid from 'uuid';
 import {
     DropdownMenu,
@@ -25,28 +25,17 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { useTableContext } from "@/context/contextTable";
-
-
-export const Create = (): FunctionComponent => {
-    return (<>
-        <div className="fixed right-2 top-2">
-            <ModeToggle></ModeToggle>
-        </div>
-        <div className="bg-white dark:bg-black font-bold w-screen h-screen flex flex-col justify-center items-center">
-            <TablePatient></TablePatient>
-        </div>
-    </>
-    );
-};
+import {  Outlet, redirect, useNavigate } from "@tanstack/react-router";
 
 
 
 
-export function TablePatient() {
-    const {data,tableHeader,addInvoice,deleteInvoice } =useTableContext();
+export function TablePatient():JSX.Element{
+    const navigate = useNavigate({ from: '/table/$patientId/delete' })
+    const {data,tableHeader,addInvoiceTable: addInvoice,deleteInvoiceTable: deleteInvoice,updateInvoiceTable: updateInvoice } =useTableContext();
     const HEADER = tableHeader;
 
-    const addPatient = () => {
+    const addPatient = ():void => {
         addInvoice({
             id: uuid.v4(),
             invoice: "INV-0001",
@@ -56,12 +45,25 @@ export function TablePatient() {
         })
     }
 
-    const removePatient = (id:string) => {
-        deleteInvoice(id)
+    const editPatient= (id:string):void => {
+        updateInvoice({
+            id:id,
+            invoice: "INV-0001",
+            patient: "John Doeleele",
+            totalAmount: "$130.00",
+            status: "Change"
+        })
+
     }
+
+    const removePatient = (patientId:string):void => {
+
+        navigate({ to: '/table/$patientId/delete', params: { patientId } })
+    }
+
     return (
         <>
-            <Button onClick={() => addPatient()}>Add Patient</Button>
+            <Button onClick={() => { addPatient(); }}>Add Patient</Button>
             <Table >
                 <TableCaption className="flex text-center justify-center w-full">A list of patient psicology clinical.</TableCaption>
                 <TableBody>
@@ -89,8 +91,8 @@ export function TablePatient() {
                                     <DropdownMenuContent>
                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                         <DropdownMenuItem>Details</DropdownMenuItem>
-                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => removePatient(content.id)}>Delete</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => { editPatient(content.id); }}>Edit</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => { removePatient(content.id); }}>Delete</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </TableCell>
@@ -110,10 +112,11 @@ export function TablePatient() {
 
 
 
-export function ModeToggle() {
+
+export function ModeToggle():JSX.Element {
     const { setTheme } = useTheme()
 
-    const changeTheme = (mode: "moon" | "sun") => {
+    const changeTheme = (mode: "moon" | "sun"):void => {
         if (mode === "moon") {
             setTheme('dark')
         }
@@ -124,12 +127,30 @@ export function ModeToggle() {
 
     return (
         <>
-                <Button  onClick={()=>changeTheme('sun')} variant="outline" className=" hidden dark:flex  dark:text-white" size="icon">
+                <Button  className=" hidden dark:flex  dark:text-white" size="icon" variant="outline" onClick={()=>{ changeTheme('sun'); }}>
                     <Sun  className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-1" />
                 </Button>
-                <Button  onClick={()=>changeTheme('moon')} variant="outline" className=" dark:hidden flex dark:text-white" size="icon">
+                <Button  className=" dark:hidden flex dark:text-white" size="icon" variant="outline" onClick={()=>{ changeTheme('moon'); }}>
                     <Moon  className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 </Button>
         </>
     )
 }
+
+
+export const CrudTable = (): FunctionComponent => {
+    return (<>
+        <div className="fixed right-2 top-2">
+            <ModeToggle></ModeToggle>
+        </div>
+        <div>
+            <Outlet></Outlet>
+        </div>
+
+        <div className="bg-white dark:bg-black font-bold w-screen h-screen flex flex-col justify-center items-center">
+            <TablePatient></TablePatient>
+        </div>
+    </>
+    );
+};
+

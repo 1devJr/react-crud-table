@@ -5,6 +5,7 @@ import type { FunctionComponent } from "./common/types";
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { TableProvider } from "./context/contextTable";
+// import { TanStackRouterDevelopmentTools } from "./components/utils/development-tools/TanStackRouterDevelopmentTools";
 
 // import { TanStackRouterDevelopmentTools } from "./components/utils/development-tools/TanStackRouterDevelopmentTools";
 
@@ -24,6 +25,7 @@ const App = ({ router }: AppProps): FunctionComponent => {
 					position="bottom-right"
 					/> */}
 					{/* <ReactQueryDevtools initialIsOpen={false} /> */}
+					{/* <Outlet /> */}
 				</QueryClientProvider>
 			</ThemeProvider>
 		</TableProvider>

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import type { FunctionComponent } from "../common/types";
+import { Link } from "@tanstack/react-router";
 
 export const Home = (): FunctionComponent => {
 	const { t, i18n } = useTranslation();
@@ -14,10 +15,11 @@ export const Home = (): FunctionComponent => {
 
 	return (
 		<div className="bg-blue-300  font-bold w-screen h-screen flex flex-col justify-center items-center">
-			<p className="text-white text-6xl">{t("home.greeting")}</p>
 			<button type="submit" onClick={onTranslateButtonClick}>
 				translate
 			</button>
+			<p className="text-white text-6xl">{t("home.greeting")}</p>
+			<Link to="/table">{t("home.table")}</Link>
 		</div>
 	);
 };

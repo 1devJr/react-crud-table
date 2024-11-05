@@ -25,7 +25,7 @@ export const headers: InvoicesHeaders = {
 }
 
 
-export const invoices: InvoicesProps[] = [
+export const invoices: Array<InvoicesProps> = [
     {
         id: uuid.v4(),
         invoice: "INV001",
