@@ -1,7 +1,6 @@
 import { EditHandle, FormEdit } from '@/components/forms/form';
-import { useTableContext } from '@/context/contextTable';
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 export const Route = createFileRoute('/table/$patientId/edit')({
   component: () => <TableIdEdit/>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { InvoicesHeaders, Invoices, headers, invoices } from "./data/table.data";
 import { wait } from "@/lib/utils";
 
@@ -42,8 +42,8 @@ export const TableProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }
    const findInvoiceTable = async (id:string ): Promise<Invoices | undefined> => {
     debugger
-    const data = invoices.find((invoice) => invoice.id === id) || undefined;
-    return Promise.resolve(data);
+    const finded = data.find((invoice) => invoice.id === id) || undefined;
+    return Promise.resolve(finded);
   }
   
   const updateInvoice = async (updatedInvoice: Invoices): Promise<void> => {

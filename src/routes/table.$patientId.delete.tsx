@@ -19,23 +19,31 @@ const TableIdDelete = () => {
 			try {
 				await deleteInvoice(patientId);
 				setResult(
-					<Alert className="bg-green-100">
-						<Terminal className="h-4 w-4 " />
-						<AlertTitle>Success!</AlertTitle>
-						<AlertDescription>has been deleted sucessfully.</AlertDescription>
-					</Alert>
+					<>
+						<div className="fixed top-5 right-5 w-vw h-vh z-50">
+							<Alert className="bg-green-100">
+								<Terminal className="h-4 w-4 " />
+								<AlertTitle>Success!</AlertTitle>
+								<AlertDescription>
+									has been deleted sucessfully.
+								</AlertDescription>
+							</Alert>
+						</div>
+					</>
 				);
 			} catch (e) {
 				setResult(
-					<Alert variant={'destructive'}>
+					<Alert variant={"destructive"}>
 						<Terminal className="h-4 w-4 " />
 						<AlertTitle>Failed!</AlertTitle>
-						<AlertDescription>There was a problem trying to delete.</AlertDescription>
+						<AlertDescription>
+							There was a problem trying to delete.
+						</AlertDescription>
 					</Alert>
 				);
-			}finally{
-        wait(1000).then(()=>setResult(null))
-      }
+			} finally {
+				wait(2000).then(() => setResult(null));
+			}
 		};
 		deletePatient();
 	}, [patientId]);

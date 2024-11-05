@@ -6,11 +6,9 @@ export const Home = (): FunctionComponent => {
 	const { t, i18n } = useTranslation();
 
 	const onTranslateButtonClick = async (): Promise<void> => {
-		if (i18n.resolvedLanguage === "en") {
-			await i18n.changeLanguage("es");
-		} else {
-			await i18n.changeLanguage("en");
-		}
+		const languages = ["en", "es", "br"]; // Array com os códigos de idioma
+		const randomLanguage = languages[Math.floor(Math.random() * languages.length)]; // Escolha aleatória
+		await i18n.changeLanguage(randomLanguage); 
 	};
 
 	return (
@@ -18,8 +16,8 @@ export const Home = (): FunctionComponent => {
 			<button type="submit" onClick={onTranslateButtonClick}>
 				translate
 			</button>
-			<p className="text-white text-6xl">{t("home.greeting")}</p>
-			<Link to="/table">{t("home.table")}</Link>
+			<p className="text-white text-6xl p-5">{t("translations:home.greeting")}</p>
+			<Link to="/table">{t("translations:home.table")}</Link>
 		</div>
 	);
 };

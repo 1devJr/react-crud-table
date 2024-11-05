@@ -4,19 +4,21 @@ import Backend, { type HttpBackendOptions } from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 import translationEN from "../assets/locales/en/translations.json";
 import translationES from "../assets/locales/es/translations.json";
+import translationBR from "../assets/locales/br/translations.json";
 import { isProduction } from "./utils";
 
 export const defaultNS = "translations";
 export const resources = {
 	en: { translations: translationEN },
 	es: { translations: translationES },
+	br: { translations: translationBR },
 } as const;
 
 const i18nOptions: InitOptions<HttpBackendOptions> = {
 	defaultNS,
 	ns: [defaultNS],
 	debug: !isProduction,
-	fallbackLng: "en",
+	fallbackLng: ["pt", "es", "en"],
 	interpolation: {
 		escapeValue: false, // not needed for react as it escapes by default
 	},
