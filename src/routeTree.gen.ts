@@ -16,6 +16,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as TableDetailsImport } from './routes/table_.details'
 import { Route as TableEditImport } from './routes/table.edit'
 import { Route as TableAddImport } from './routes/table.add'
+import { Route as TablePatientIdEditImport } from './routes/table.$patientId.edit'
 import { Route as TablePatientIdDeleteImport } from './routes/table.$patientId.delete'
 
 // Create/Update Routes
@@ -42,6 +43,11 @@ const TableEditRoute = TableEditImport.update({
 
 const TableAddRoute = TableAddImport.update({
   path: '/add',
+  getParentRoute: () => TableRoute,
+} as any)
+
+const TablePatientIdEditRoute = TablePatientIdEditImport.update({
+  path: '/$patientId/edit',
   getParentRoute: () => TableRoute,
 } as any)
 
@@ -96,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TablePatientIdDeleteImport
       parentRoute: typeof TableImport
     }
+    '/table/$patientId/edit': {
+      id: '/table/$patientId/edit'
+      path: '/$patientId/edit'
+      fullPath: '/table/$patientId/edit'
+      preLoaderRoute: typeof TablePatientIdEditImport
+      parentRoute: typeof TableImport
+    }
   }
 }
 
@@ -107,6 +120,7 @@ export const routeTree = rootRoute.addChildren({
     TableAddRoute,
     TableEditRoute,
     TablePatientIdDeleteRoute,
+    TablePatientIdEditRoute,
   }),
   TableDetailsRoute,
 })
@@ -132,7 +146,8 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/table/add",
         "/table/edit",
-        "/table/$patientId/delete"
+        "/table/$patientId/delete",
+        "/table/$patientId/edit"
       ]
     },
     "/table/add": {
@@ -148,6 +163,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/table/$patientId/delete": {
       "filePath": "table.$patientId.delete.tsx",
+      "parent": "/table"
+    },
+    "/table/$patientId/edit": {
+      "filePath": "table.$patientId.edit.tsx",
       "parent": "/table"
     }
   }

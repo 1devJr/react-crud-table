@@ -20,10 +20,10 @@ const rootElement = document.querySelector("#root") as Element;
 if (!rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(
-		<React.StrictMode>
+		// <React.StrictMode>
 			<React.Suspense fallback="loading">
 				<App router={router} />
 			</React.Suspense>
-		</React.StrictMode>
+		// </React.StrictMode>
 	);
 }

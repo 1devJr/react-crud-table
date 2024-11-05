@@ -1,13 +1,16 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { InvoicesHeaders, InvoicesProps, headers, invoices } from "./data/table.data";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { InvoicesHeaders, Invoices, headers, invoices } from "./data/table.data";
 import { wait } from "@/lib/utils";
 
 interface TableContextType {
   tableHeader: InvoicesHeaders;
-  data: InvoicesProps[];
+  data: Invoices[];
+  isOpen: boolean;
+  showModal : (show: boolean) => void;
   setTableHeader: (headers: InvoicesHeaders) => void;
-  addInvoiceTable: (invoice: InvoicesProps) => Promise<void>;
-  updateInvoiceTable: (updatedInvoice: InvoicesProps) => Promise<void>;
+  addInvoiceTable: (invoice: Invoices) => Promise<void>;
+  findInvoiceTable: ( id: string) => Promise<Invoices | undefined>;
+  updateInvoiceTable: (updatedInvoice: Invoices) => Promise<void>;
   deleteInvoiceTable:  (id: string) => Promise<void>;
 }
 
@@ -22,16 +25,28 @@ export const useTableContext = (): TableContextType => {
 };
 
 export const TableProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [data, setData] = useState<InvoicesProps[]>(invoices);
+  const [data, setData] = useState<Invoices[]>(invoices);
+  const [isOpen, setIsOpen] = useState(false);
   const [tableHeader, setTableHeader] = useState<InvoicesHeaders>(headers);
-
-  const addInvoice =async (invoice: InvoicesProps): Promise<void> => {
-     await wait(1000)
+  
+  const addInvoice =async (invoice: Invoices): Promise<void> => {
+    await wait(1000)
     setData((prevData) => [...prevData, invoice]);
     return Promise.resolve();
   };
-
-  const updateInvoice = async (updatedInvoice: InvoicesProps): Promise<void> => {
+  
+  
+  
+  const showModal= ( show: boolean) =>{
+    setIsOpen(show);
+  }
+   const findInvoiceTable = async (id:string ): Promise<Invoices | undefined> => {
+    debugger
+    const data = invoices.find((invoice) => invoice.id === id) || undefined;
+    return Promise.resolve(data);
+  }
+  
+  const updateInvoice = async (updatedInvoice: Invoices): Promise<void> => {
      await wait(1000)
     setData((prevData) =>
       prevData.map((invoice) => (invoice.id === updatedInvoice.id ? updatedInvoice : invoice))
@@ -50,7 +65,7 @@ export const TableProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [data]);
 
   return (
-    <TableContext.Provider value={{ data, addInvoiceTable: addInvoice, updateInvoiceTable: updateInvoice, deleteInvoiceTable: deleteInvoice, tableHeader, setTableHeader }}>
+    <TableContext.Provider value={{ data,isOpen,showModal, addInvoiceTable: addInvoice,findInvoiceTable: findInvoiceTable, updateInvoiceTable: updateInvoice, deleteInvoiceTable: deleteInvoice, tableHeader, setTableHeader }}>
       {children}
     </TableContext.Provider>
   );
