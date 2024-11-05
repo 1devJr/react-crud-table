@@ -1,5 +1,6 @@
 {
     "home": {
-        "greeting": "¡Hola, Mundo!"
+        "greeting": "¡Hola, amigo!",
+        "table": "ir a la tabla"
     }
 }
